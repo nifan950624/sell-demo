@@ -1,10 +1,10 @@
 <template>
-  <div>我是header</div>
+  <div>goods</div>
 </template>
 
 <script>
 export default {
-  name: 'Header'
+  name: 'Goods'
 }
 </script>
 
