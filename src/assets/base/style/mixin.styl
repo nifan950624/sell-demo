@@ -1,4 +1,13 @@
 boder-color($color)
   &::before,&::after
     border-color: $color
-  
+
+bg-img($url)
+   background-image: url($url + "@2x.png")
+  @media (min--moz-device-pixel-ratio: 3.0),(-webkit-min-device-pixel-ratio: 3.0)
+    background-image: url($url + "@3px.png")
+
+ellipsis()
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap

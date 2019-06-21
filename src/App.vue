@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <home-header></home-header>
+    <home-header :seller="seller"></home-header>
       <div class="item-tab border-bottom">
           <router-link tag="div" to="/goods" class="item">商品</router-link>
           <router-link tag="div" to="/ratings" class="item">评价</router-link>
@@ -11,11 +11,24 @@
 </template>
 
 <script>
-import homeHeader from '@/components/header'
+import homeHeader from '@/components/header/header'
+const ERR_OK = 0
 export default {
   name: 'App',
   components: {
     homeHeader
+  },
+   data() {
+    return {
+      seller: {}
+    }
+  },
+  created() {
+    this.$http.get('/api/seller').then((res) => {
+      if (res.body.errno === ERR_OK) {
+      this.seller = res.body.data 
+      }
+    })
   }
 }
 </script>
