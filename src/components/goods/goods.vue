@@ -1,7 +1,50 @@
 <template>
   <div class="goods border-top">
-    <div class="food-nav"></div>
-    <div class="foods-list"></div>
+    <div class="food-nav">
+      <ul class="nav-list">
+        <li class="nav-item border-bottom"
+        v-for="(item,index) of goods"
+        :key="index"
+        >
+          <span class="text">
+             <span v-if="item.type > 0" 
+          class="icon"
+          :class="classList[item.type]"
+          ></span>{{item.name}}
+          </span> 
+        </li>
+      </ul>
+    </div>
+    <div class="foods">
+      <ul class="foods-list">
+        <li class="food-item"
+        v-for="(item,index) of goods"
+        :key="index"
+        >
+          <div class="title border-left">{{item.name}}</div>
+          <div class="food-wrapper"
+          v-for= "(food,index) of item.foods"
+          :key="index"
+          >
+          <div class="food-item border-bottom">
+            <div class="food-img"><img :src="food.image" width=60 height=60></div>
+            <div class="content">
+              <h2 class="content-title">{{food.name}}</h2>
+              <div class="desc">{{food.description}}</div>
+              <div class="sellMsg">
+                <span class="sellCount">月销{{food.sellCount}}份</span><span class="rating">好评率{{food.rating}}%
+                </span>
+                </div>
+              <div class="price">￥{{food.price}}</div><div
+              v-show="food.oldPrice"  
+              class="oldPrice">￥{{food.oldPrice}}
+              </div>
+            </div>
+          </div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -14,7 +57,8 @@ export default {
   },
   data() {
     return {
-      goods: []
+      goods: [],
+      classList: ['discrease','discount','guarantee','invoice','special']
     }
   },
   created() {
@@ -22,12 +66,14 @@ export default {
       if (res.body.errno === ERR_OK) {
         this.goods = res.body.data
       }
+      console.log(this.goods)
     })
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+  @import '~style/mixin'
   .goods
     position: absolute
     display: flex
@@ -42,4 +88,96 @@ export default {
     .food-nav
       flex: 0 0 80px
       background: #f3f5f7
+      .nav-list
+        .nav-item
+          display: table
+          width: 56px
+          height: 54px
+          margin: 0 auto
+        .border-bottom
+          &::before
+            border-color: rgba(7,17,27,0.1) 
+          .icon
+            display: inline-block
+            vertical-align: top
+            margin-right: 2px
+            width: 14px
+            height 14px
+            background-size: cover
+            background-repeat: no-repeat
+            &.discrease
+              bg-img('decrease_3')
+            &.discount
+              bg-img('discount_3')
+            &.guarantee
+              bg-img('guarantee_3')
+            &.invoice
+              bg-img('invoice_3')
+            &.special
+              bg-img('special_3')
+          .text
+            display: table-cell
+            vertical-align: middle
+            line-height: 14px
+            font-size: 12px             
+    .foods
+      flex: 1
+      .foods-list
+        .food-item
+          .title
+            line-height: 26px
+            text-indent: 14px
+            background: #f3f5f7
+            font-size: 12px
+            color: rgb(147, 153, 159)
+            font-weight: normal/700
+          .border-left
+            &::before
+              border-left: #d9dde1 2px solid 
+          .food-wrapper
+            padding: 0 18px
+            .border-bottom
+              &::bofore
+                border-color: rgb(7,17,27,0.1) 
+            .food-item
+              display: flex
+              padding: 18px 0
+              .food-img
+                height: 0
+                padding-bottom: 60px
+                overflow: hidden
+              .content
+                flex: 1
+                margin-left: 10px
+                .content-title
+                  line-height: 14px
+                  font-size: 14px
+                  color: rgb(7, 17, 27)
+                  margin-top: 2px
+                .desc
+                  margin: 8px 0
+                  font-size: 10px
+                  color: rgb(147,153,159)
+                .sellMsg
+                  font-size: 10px
+                  color: rgb(147,153,159)
+                  margin-bottom: 8px
+                  .rating
+                    margin-left: 12px
+                .price
+                  display: inline-block    
+                  margin-right: 8px
+                  line-height: 24px
+                  font-size: 14px
+                  font-weight: 700
+                  color: red 
+                .oldPrice
+                  display: inline-block
+                  vertical-align: top
+                  line-height: 24px   
+                  font-size: 10px
+                  color: rgb(147,153,159)
+                  font-weight: 700
+                    
+
 </style>

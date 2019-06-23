@@ -116,7 +116,6 @@ export default {
       font-size: 0
       .float-wrapper-button
         position: absolute
-        height: 24px
         line-height : 24px
         bottom: 14px
         right: 12px
@@ -194,9 +193,9 @@ export default {
         font-size: 10px
       .icon-keyboard_arrow_right
         position: absolute
-        right: 12px
-        top: 10px
-        font-size: 10px
+        right: 0px
+        top: 8px
+        font-size: 12px
     .background
       position: absolute
       top: 0
