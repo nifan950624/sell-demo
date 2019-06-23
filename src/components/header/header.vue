@@ -30,54 +30,57 @@
     <div class="background">
       <img :src="seller.avatar" width=100% height=100%>
     </div>
-    <div v-show="toggle" class="float-wrapper">
-      <div class="background"></div>
-      <div class="detail-wrapper clearfix">
-        <div class="detail-content">
-          <div class="title">{{seller.name}}</div>
-          <star v-if="seller.score" 
-          :score="seller.score" :size="48"
-          class="star"
-          ></star>
-          <div class="discount-message">
-            <div class="name"><h2 class="title-message">优惠信息</h2></div>
-            <ul class="discount-desc">
-              <li 
-              class="discount-item"
-              v-for="(item, index) of seller.supports"
-              :key="item.type">
-                <span class="icon" 
-                :class="classList[index]"></span>
-                <span class="discount-text">
-                  {{item.description}}
-                </span>
-              </li>
-            </ul>
-          </div>
-          <div class="seller-bulletin">
-            <div class="name"><h2 class="title-message">商家公告</h2></div>
-            <p class="desc">{{seller.bulletin}}</p>
+    <opacity-transition>
+      <div v-show="toggle" class="float-wrapper">
+        <div class="detail-wrapper clearfix">
+          <div class="detail-content">
+            <div class="title">{{seller.name}}</div>
+            <star v-if="seller.score" 
+            :score="seller.score" :size="48"
+            class="star"
+            ></star>
+            <div class="discount-message">
+              <div class="name"><h2 class="title-message">优惠信息</h2></div>
+              <ul class="discount-desc">
+                <li 
+                class="discount-item"
+                v-for="(item, index) of seller.supports"
+                :key="item.type">
+                  <span class="icon" 
+                  :class="classList[index]"></span>
+                  <span class="discount-text">
+                    {{item.description}}
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div class="seller-bulletin">
+              <div class="name"><h2 class="title-message">商家公告</h2></div>
+              <p class="desc">{{seller.bulletin}}</p>
+            </div>
           </div>
         </div>
+        <div class="toggle">
+        <div class="icon-close"
+        @click="handleCloseClick"
+        ></div>
+        </div>
       </div>
-      <div class="toggle">
-      <div class="icon-close"
-      @click="handleCloseClick"
-      ></div>
-      </div>
-    </div>
+    </opacity-transition>
   </div>
 </template>
 
 <script>
 import star from 'base/common/star/star'
+import opacityTransition from 'base/common/transition/transition'
 export default {
   name: 'Header',
   props: {
     seller: Object
   },
   components: {
-    star
+    star,
+    opacityTransition
   },
   data() {
     return {
@@ -208,13 +211,7 @@ export default {
       z-index: 99
       overflow: auto
       background: rgba(7, 17, 27, 0.8)
-      .background
-        position: absolute
-        left: 0
-        top: 0
-        width: 100%
-        height: 100%
-        filter: blur(10px)
+      backdrop-filter: blur(10px)
       .detail-wrapper
         min-height: 100%
         .detail-content
