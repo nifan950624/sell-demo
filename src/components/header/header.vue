@@ -61,9 +61,10 @@
           </div>
         </div>
         <div class="toggle">
-        <div class="icon-close"
-        @click="handleCloseClick"
-        ></div>
+          <div class="icon-close"
+          @click="handleCloseClick"
+          >
+          </div>
         </div>
       </div>
     </opacity-transition>
@@ -132,7 +133,8 @@ export default {
         margin-left: 18px
         font-size: 12px
         .title 
-          margin-top: 2px  
+          margin-top: 2px
+          height: 18px  
           .title-img
             vertical-align: top
             display inline-block
@@ -141,7 +143,8 @@ export default {
             bg-img('brand')
             background-size: cover
             background-repeat: no-repeat
-          .name
+          .name 
+            line-height: 18px 
             font-size: 16px
             font-weight: bold
             margin-left: 6px  
@@ -154,7 +157,7 @@ export default {
           line-height: 12px
           .icon
             display: inline-block
-            vertical-align: top
+            vertical-align: middle
             width: 12px
             height 12px
             background-size: cover
@@ -180,7 +183,7 @@ export default {
         display: inline-block
         vertical-align: top
         margin-right: 4px
-        margin-top: 7px
+        margin-top: 6px
         bg-img('bulletin')
         width: 22px
         height: 12px
@@ -211,7 +214,7 @@ export default {
       z-index: 99
       overflow: auto
       background: rgba(7, 17, 27, 0.8)
-      backdrop-filter: blur(10px)
+      // backdrop-filter: blur(10px)
       .detail-wrapper
         min-height: 100%
         .detail-content
@@ -282,5 +285,5 @@ export default {
           width: 32px 
           font-size: 32px
           color: rgba(255, 255, 255, 0.5)
-          clear: both 
+          clear: both
 </style>
