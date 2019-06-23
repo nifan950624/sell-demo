@@ -31,31 +31,36 @@
       <img :src="seller.avatar" width=100% height=100%>
     </div>
     <div v-show="toggle" class="float-wrapper">
-      <div class="toggle">
-          <div class="icon-close"
-          @click="handleCloseClick"
-          ></div>
-      </div>
-      <div class="title">{{seller.name}}</div>
-      <div class="rank"></div>
-      <div class="discount-message">
-        <div class="name"><h2 class="title-message">优惠信息</h2></div>
-        <div class="movement" 
-        v-if="seller.supports">
-          <span class="icon" 
-          :class="classList[seller.supports[0].type]"></span>{{seller.supports[0].description}}
+      <div class="background"></div>
+      <div class="detail-wrapper clearfix">
+        <div class="detail-content">
+          <div class="title">{{seller.name}}</div>
+          <div class="rank"></div>
+          <div class="discount-message">
+            <div class="name"><h2 class="title-message">优惠信息</h2></div>
+            <div class="movement" 
+            v-if="seller.supports">
+              <span class="icon" 
+              :class="classList[seller.supports[0].type]"></span>{{seller.supports[0].description}}
+            </div>
+          </div>
+          <div class="seller-bulletin">
+            <div class="name"><h2 class="title-message">商家公告</h2></div>
+            <p class="desc">{{seller.bulletin}}</p>
+          </div>
         </div>
       </div>
-      <div class="seller-bulletin">
-        <div class="name"><h2 class="title-message">商家公告</h2></div>
-        <p class="desc">{{seller.bulletin}}</p>
+      <div class="toggle">
+      <div class="icon-close"
+      @click="handleCloseClick"
+      ></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import floatWrapper from './components/float-wrapper'
+
 export default {
   name: 'Header',
   props: {
@@ -185,53 +190,61 @@ export default {
       position: fixed
       left: 0
       top: 0
-      right: 0
       bottom: 0
-      background: black
-      padding: 0 36px
+      right: 0
       z-index: 99
-      .toggle
+      overflow: auto
+      background: rgba(7, 17, 27, 0.8)
+      .background
         position: absolute
-        bottom: 32px
-        left: 50%
-        transform: translateX(-50%)
+        left: 0
+        top: 0
+        width: 100%
+        height: 100%
+        filter: blur(10px)
+      .detail-wrapper
+        min-height: 100%
+        .detail-content
+          padding:64px 36px
+          .title
+            text-align: center
+            line-height: 16px
+            font-weight: 700
+            font-size: 16px
+          .rank
+            text-align: center
+            height: 0
+            margin-top: 16px
+            padding-bottom: 24px
+            overflow: hidden
+            background: red
+          .discount-message, .seller-bulletin
+            .name
+              display: flex
+              margin-top: 28px
+              font-size: 14px
+              .title-message
+                padding: 0 12px
+              &::after,&::before
+                flex: 1
+                content: ''
+                display: block
+                height: 0
+                width: 122px
+                border-top: 1px solid white
+                margin-top: 7px
+            .desc
+              line-height: 24px
+              margin-top:24px
+              padding:0 12px
+              font-size: 12px
+      .toggle
         .icon-close
+          margin:-64px auto 0 auto
           height: 0
           padding-bottom: 32px
           width: 32px 
           font-size: 32px
-          color: rgba(255, 255, 255, 0.5) 
-      .title
-        text-align: center
-        line-height: 16px
-        font-weight: 700
-        font-size: 16px
-        margin-top: 64px
-      .rank
-        text-align: center
-        height: 0
-        margin-top: 16px
-        padding-bottom: 24px
-        overflow: hidden
-        background: red
-      .discount-message, .seller-bulletin
-        .name
-          display: flex
-          margin-top: 28px
-          font-size: 14px
-          .title-message
-            padding: 0 12px
-          &::after,&::before
-            flex: 1
-            content: ''
-            display: block
-            height: 0
-            width: 122px
-            border-top: 1px solid white
-            margin-top: 7px
-        .desc
-          line-height: 24px
-          margin-top:24px
-          padding:0 12px
-          font-size: 12px
+          color: rgba(255, 255, 255, 0.5)
+          clear: both 
 </style>

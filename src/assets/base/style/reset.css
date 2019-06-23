@@ -140,6 +140,15 @@ menu {
   display: block
 }
 
+.clearfix::after{
+  display: block;
+  height: 0;
+  line-height: 0;
+  clear: both;
+  visibility: hidden;
+  content: ' ';
+}
+
 audio,
 canvas,
 video {
