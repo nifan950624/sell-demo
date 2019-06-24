@@ -7,9 +7,11 @@ import 'base/style/border.css'
 import 'base/style/reset.css'
 import 'base/style/icon.css'
 import vueResource from 'vue-resource'
+import FastClick from 'fastclick'
 
 Vue.config.productionTip = false
 Vue.use(vueResource)
+FastClick.attach(document.body)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

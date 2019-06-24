@@ -44,11 +44,20 @@
               class="oldPrice">￥{{food.oldPrice}}
               </div>
             </div>
+              <div class="cartfood-wrapper">
+                <move-tranastion>
+                  <cartfood 
+                  @changeCount="handleChangeCount"
+                  :food="food"
+                  ></cartfood>
+                </move-tranastion>
+              </div>
           </div>
         </li>
       </ul>
     </div>
-    <shop-cart 
+    <shop-cart
+    :sellectFoods="sellectFoods" 
     :minPrice="seller.minPrice"
     :deliveryPrice="seller.deliveryPrice"
     ></shop-cart>
@@ -56,7 +65,9 @@
 </template>
 
 <script>
+import moveTranastion from 'base/common/transition/moveTranastion'
 import shopCart from './shopCart/shopCart'
+import cartfood from './cartfood/cartfood'
 import BScroll from 'better-scroll'
 const ERR_OK = 0
 export default {
@@ -65,14 +76,17 @@ export default {
     seller: Object
   },
   components: {
-    shopCart
+    shopCart,
+    cartfood,
+    moveTranastion
   },
   data() {
     return {
       goods: [],
       classList: ['discrease','discount','guarantee','invoice','special'],
       listHeight: [],
-      scrollY: 0
+      scrollY: 0,
+      sellectFoods: []
     }
   },
   computed: {
@@ -88,20 +102,24 @@ export default {
     },
   },
   methods: {
+    handleChangeCount(food) {
+      
+    },
     handleNavClick(index, event) {
       if(!event._constructed) {
         return
       }
       let foodList = this.$refs.foodList
       let el = foodList[index]
-      this.scroll2.scrollToElement(el ,300)
+      this.scroll2.scrollToElement(el,500)
     },
     _initScroll() {
       this.scroll1 = new BScroll(this.$refs.wrapper1, {
         click: true
       })
       this.scroll2 = new BScroll(this.$refs.wrapper2, {
-        probeType: 3
+        probeType: 3,
+        click: true
       })
       this.scroll2.on('scroll', (pos) => {
         this.scrollY = Math.abs(Math.round(pos.y))
@@ -138,7 +156,7 @@ export default {
     position: absolute
     display: flex
     top: 174px
-    bottom: 58px
+    bottom: 48px
     left: 0
     right: 0
     overflow: hidden
@@ -148,6 +166,7 @@ export default {
     .food-nav
       flex: 0 0 80px
       background: #f3f5f7
+      height: 100%
       .nav-list
         .nav-item
           display: table
@@ -246,6 +265,10 @@ export default {
                 font-size: 10px
                 color: rgb(147,153,159)
                 font-weight: 700
+            .cartfood-wrapper
+              position: absolute
+              right: -6px
+              bottom: 18px
                     
 
 </style>
