@@ -2,11 +2,11 @@
   <div id="app">
     <home-header :seller="seller"></home-header>
       <div class="item-tab border-bottom">
-          <router-link tag="div" to="/goods" class="item">商品</router-link>
-          <router-link tag="div" to="/ratings" class="item">评价</router-link>
-          <router-link tag="div" to="/seller" class="item">商家</router-link>
-        </div>
-      <router-view/>
+        <router-link tag="div" to="/goods" class="item">商品</router-link>
+        <router-link tag="div" to="/ratings" class="item">评价</router-link>
+        <router-link tag="div" to="/seller" class="item">商家</router-link>
+      </div>
+      <router-view :seller="seller"></router-view>
   </div>
 </template>
 
