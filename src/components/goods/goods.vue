@@ -1,6 +1,6 @@
 <template>
   <div class="goods border-top">
-    <div class="food-nav">
+    <div class="food-nav" ref="wrapper1">
       <ul class="nav-list">
         <li class="nav-item border-bottom"
         v-for="(item,index) of goods"
@@ -15,19 +15,18 @@
         </li>
       </ul>
     </div>
-    <div class="foods">
+    <div class="foods" ref="wrapper2">
       <ul class="foods-list">
         <li class="food-item"
         v-for="(item,index) of goods"
         :key="index"
         >
-          <div class="title border-left">{{item.name}}</div>
-          <div class="food-wrapper"
+          <div class="title">{{item.name}}</div>
+          <div class="food-wrapper border-bottom"
           v-for= "(food,index) of item.foods"
           :key="index"
           >
-          <div class="food-item border-bottom">
-            <div class="food-img"><img :src="food.image" width=60 height=60></div>
+            <div class="food-img"><img :src="food.image" width=57 height=57></div>
             <div class="content">
               <h2 class="content-title">{{food.name}}</h2>
               <div class="desc">{{food.description}}</div>
@@ -41,7 +40,6 @@
               </div>
             </div>
           </div>
-          </div>
         </li>
       </ul>
     </div>
@@ -49,7 +47,8 @@
 </template>
 
 <script>
-  const ERR_OK = 0
+import BScroll from 'better-scroll'
+const ERR_OK = 0
 export default {
   name: 'goods',
   props: {
@@ -61,13 +60,21 @@ export default {
       classList: ['discrease','discount','guarantee','invoice','special']
     }
   },
+  methods: {
+    _initScroll() {
+      this.scroll = new BScroll(this.$refs.wrapper1, {})
+      this.scroll = new BScroll(this.$refs.wrapper2, {})
+    }
+  },
   created() {
     this.$http.get('api/goods').then((res) => {
       if (res.body.errno === ERR_OK) {
         this.goods = res.body.data
       }
-      console.log(this.goods)
     })
+  },
+  mounted() {
+    this._initScroll()
   }
 }
 </script>
@@ -131,53 +138,53 @@ export default {
             font-size: 12px
             color: rgb(147, 153, 159)
             font-weight: normal/700
-          .border-left
-            &::before
-              border-left: #d9dde1 2px solid 
+            border-left: #d9dde1 2px solid 
           .food-wrapper
-            padding: 0 18px
-            .border-bottom
-              &::bofore
-                border-color: rgb(7,17,27,0.1) 
-            .food-item
-              display: flex
-              padding: 18px 0
-              .food-img
-                height: 0
-                padding-bottom: 60px
-                overflow: hidden
-              .content
-                flex: 1
-                margin-left: 10px
-                .content-title
-                  line-height: 14px
-                  font-size: 14px
-                  color: rgb(7, 17, 27)
-                  margin-top: 2px
-                .desc
-                  margin: 8px 0
-                  font-size: 10px
-                  color: rgb(147,153,159)
-                .sellMsg
-                  font-size: 10px
-                  color: rgb(147,153,159)
-                  margin-bottom: 8px
-                  .rating
-                    margin-left: 12px
-                .price
-                  display: inline-block    
-                  margin-right: 8px
-                  line-height: 24px
-                  font-size: 14px
-                  font-weight: 700
-                  color: red 
-                .oldPrice
-                  display: inline-block
-                  vertical-align: top
-                  line-height: 24px   
-                  font-size: 10px
-                  color: rgb(147,153,159)
-                  font-weight: 700
+            display: flex
+            margin: 0 18px   
+            padding: 18px 0
+          .border-bottom
+            &::bofore
+              border-color: rgb(7,17,27,0.1)
+            &:last-child::before
+              display: none
+            .food-img
+              height: 0
+              padding-bottom: 57px
+              overflow: hidden
+            .content
+              flex: 1
+              margin-left: 10px
+              .content-title
+                line-height: 14px
+                font-size: 14px
+                color: rgb(7, 17, 27)
+                margin-top: 2px
+              .desc
+                margin: 8px 0
+                line-height: 12px
+                font-size: 10px
+                color: rgb(147,153,159)
+              .sellMsg
+                font-size: 10px
+                line-height: 10px
+                color: rgb(147,153,159)
+                .rating
+                  margin-left: 12px
+              .price
+                display: inline-block    
+                margin-right: 8px
+                line-height: 24px
+                font-size: 14px
+                font-weight: 700
+                color: rgb(240,20,20)
+              .oldPrice
+                display: inline-block
+                vertical-align: top
+                line-height: 24px   
+                font-size: 10px
+                color: rgb(147,153,159)
+                font-weight: 700
                     
 
 </style>
