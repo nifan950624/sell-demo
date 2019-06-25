@@ -12,6 +12,7 @@ import FastClick from 'fastclick'
 Vue.config.productionTip = false
 Vue.use(vueResource)
 FastClick.attach(document.body)
+Vue.prototype.bus = new Vue()
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

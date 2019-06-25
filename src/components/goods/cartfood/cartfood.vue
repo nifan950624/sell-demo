@@ -1,16 +1,19 @@
 <template>
   <div class="cartfood">
     <transition>
-      <div 
+      <div
       v-show="food.count > 0"
-      class="disceaseCount icon-remove_circle_outline"
       @click="decreaseCountClick"
-      ></div>
+      class="disceaseCount"
+      transition="move"
+      >
+        <span class="icon-remove_circle_outline"></span>
+      </div>
     </transition>
     <div class="count"
     v-show="food.count > 0" 
     >{{food.count}}</div>
-    <div 
+    <div
     @click="addCountClick"
     class="addCount icon-add_circle"></div>
   </div>
@@ -29,17 +32,17 @@ export default {
     
   },
   methods: {
-    addCountClick() {
+    addCountClick(e) {
       if(!this.food.count){
         Vue.set(this.food,'count',1)
       }else {
         this.food.count++
       }
-      this.$emit('changeCount',this.food) 
+      this.bus.$emit('addcart',e.currentTarget)
     },
     decreaseCountClick() {
       this.food.count--
-      this.$emit('changeCount',this.food)
+      this.bus.$emit('changeCount',this.food)
     }
   }
 }
@@ -48,12 +51,20 @@ export default {
 <style lang="stylus" scoped>
   .cartfood
     font-size: 0
-    .disceaseCount,.addCount
+    .disceaseCount
       display: inline-block
-      padding: 6px
-      line-height: 24px
-      font-size: 24px
-      color:rgb(0,160,220)
+      &.v-enter,&.v-leave-to
+        opacity: 0
+        transform: translate3d(24px,0,0)
+      .icon-remove_circle_outline
+        display: inline-block
+        padding: 6px
+        line-height: 24px
+        font-size: 24px
+        color:rgb(0,160,220)
+      &.v-enter-active,&.v-leave-active
+        transform: translate3d(0,0,0) 
+        transition: all 0.35s linear
     .count
       display: inline-block
       vertical-align: top
@@ -65,5 +76,9 @@ export default {
       color: rgb(147,153,159)
     .addCount
       display: inline-block
-      animation move 0.5 linear 
+      padding: 6px
+      line-height: 24px
+      font-size: 24px
+      color:rgb(0,160,220)
+      
 </style>

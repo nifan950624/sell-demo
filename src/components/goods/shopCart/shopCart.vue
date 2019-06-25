@@ -28,6 +28,26 @@
       :class="{'heightLight': Spread <= 0}" 
       v-show="Spread <= 0">去结算</div>
     </div>
+    <div class="ball-contain">
+        <div 
+        v-for="(ball,index) of balls" 
+        :key="index" 
+        > 
+          <transition
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @after-enter="afterEnter"
+            name="dropball"
+          >
+            <div 
+            class="ball"
+            v-show="ball.show"
+            >
+                <div class="inner inner-hook"></div>
+            </div>
+          </transition>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -47,6 +67,68 @@ export default {
     minPrice: {
       type: Number,
       default: 0
+    }
+  },
+  data() {
+      return {
+        balls: [
+          {show: false},
+          {show: false},
+          {show: false},
+          {show: false},
+          {show: false},
+        ],
+        dropBalls: []
+      }
+    },
+  methods: {
+    drop() {
+      this.bus.$on('addcart', (el) => {
+        for (let i = 0; i < this.balls.length; i++) {
+          let ball = this.balls[i]
+          if (!ball.show) {
+            ball.show = true
+            ball.el = el
+            this.dropBalls.push(ball)
+            return 
+          }
+        }
+      })
+    },
+    beforeEnter(el) {
+      let count = this.balls.length
+      while(count--) {
+        let ball = this.balls[count]
+        if(ball.show) {
+          let rect = ball.el.getBoundingClientRect()
+          let x = rect.left - 32
+          let y = -(window.innerHeight - rect.top - 22)
+          el.style.display = ''
+          el.style.webkitTransform = `translate3d(0,${y}px,0)`
+          el.style.transform = `translate3d(0,${y}px,0)`
+          let inner = el.getElementsByClassName('inner-hook')[0]
+          inner.style.webkitTransform = `translate3d(${x}px,0,0)`
+          inner.style.transform = `translate3d(${x}px,0,0)`
+        }
+      }
+    },
+    enter(el,done) {
+        let rf = el.offsetHeight;
+        this.$nextTick(() => {
+          el.style.webkitTransform = 'translate3d(0,0,0)'
+          el.style.transform = 'translate3d(0,0,0)'
+          let inner = el.getElementsByClassName('inner-hook')[0]
+          inner.style.webkitTransform = 'translate3d(0,0,0)'
+          inner.style.transform = 'translate3d(0,0,0)'
+          el.addEventListener('transitionend',done)
+        })
+    },
+    afterEnter(el) {
+      let ball = this.dropBalls.shift();
+      if (ball) {
+        ball.show = false;
+        el.style.display = 'none';
+      }
     }
   },
   computed: {
@@ -127,6 +209,7 @@ export default {
         .price
           display: inline-block
           vertical-align: top
+          width: 40px
           line-height: 24px
           margin-top: 12px
           padding-right: 12px
@@ -158,4 +241,19 @@ export default {
         &.heightLight
           background: rgb(76,217,111)
           color: #fff
+    .ball-contain
+      position: fixed
+      bottom: 22px
+      left: 32px
+      .ball
+       &.dropball-enter-active
+          transition: all 0.4s cubic-bezier(0.49, -0.29, 0.75, 0.41)
+          .inner
+            width: 16px
+            height: 16px
+            border-radius: 50%
+            background: rgb(0, 160, 220)
+            background: red
+            transition: all 0.4s linear
+      
 </style>

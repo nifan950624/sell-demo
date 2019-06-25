@@ -45,12 +45,9 @@
               </div>
             </div>
               <div class="cartfood-wrapper">
-                <move-tranastion>
-                  <cartfood 
-                  @changeCount="handleChangeCount"
-                  :food="food"
-                  ></cartfood>
-                </move-tranastion>
+                <cartfood 
+                :food="food"
+                ></cartfood>
               </div>
           </div>
         </li>
@@ -60,12 +57,12 @@
     :sellectFoods="sellectFoods" 
     :minPrice="seller.minPrice"
     :deliveryPrice="seller.deliveryPrice"
+    ref="shopcart"
     ></shop-cart>
   </div>
 </template>
 
 <script>
-import moveTranastion from 'base/common/transition/moveTranastion'
 import shopCart from './shopCart/shopCart'
 import cartfood from './cartfood/cartfood'
 import BScroll from 'better-scroll'
@@ -78,7 +75,6 @@ export default {
   components: {
     shopCart,
     cartfood,
-    moveTranastion
   },
   data() {
     return {
@@ -86,25 +82,32 @@ export default {
       classList: ['discrease','discount','guarantee','invoice','special'],
       listHeight: [],
       scrollY: 0,
-      sellectFoods: []
     }
   },
   computed: {
-     currentIndex() {
-      for (let i = 0; i < this.listHeight.length; i++) {
-        let height1 = this.listHeight[i];
-        let height2 = this.listHeight[i + 1];
-        if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-          return i;
+    sellectFoods() {
+      let foods = []
+      this.goods.forEach((good) => {
+        good.foods.forEach((food) => {
+          if (food.count) {
+            foods.push(food)
+          }
+        })
+      })
+      return foods
+    },
+    currentIndex() {
+    for (let i = 0; i < this.listHeight.length; i++) {
+      let height1 = this.listHeight[i];
+      let height2 = this.listHeight[i + 1];
+      if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+        return i;
         }
       }
       return 0;
     },
   },
   methods: {
-    handleChangeCount(food) {
-      
-    },
     handleNavClick(index, event) {
       if(!event._constructed) {
         return
@@ -143,6 +146,7 @@ export default {
         this.$nextTick(() => {
             this._initScroll();
             this._calculateHeight();
+            this.$refs.shopcart.drop()
         });
       }
     })
