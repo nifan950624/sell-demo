@@ -146,7 +146,9 @@ export default {
         this.$nextTick(() => {
             this._initScroll();
             this._calculateHeight();
+            this.$nextTick(() => {
             this.$refs.shopcart.drop()
+            }) 
         });
       }
     })

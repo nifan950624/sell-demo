@@ -1,15 +1,14 @@
 <template>
   <div class="cartfood">
-    <transition>
-      <div
-      v-show="food.count > 0"
-      @click="decreaseCountClick"
-      class="disceaseCount"
-      transition="move"
-      >
-        <span class="icon-remove_circle_outline"></span>
-      </div>
-    </transition>
+      <transition name="fade">
+          <div
+          v-show="food.count > 0" 
+          class="discreaseCount"
+          @click="decreaseCountClick"
+          >
+            <span class="inner icon-remove_circle_outline"></span>
+          </div>
+      </transition>
     <div class="count"
     v-show="food.count > 0" 
     >{{food.count}}</div>
@@ -28,9 +27,6 @@ export default {
       default: {}
     }
   },
-  computed: {
-    
-  },
   methods: {
     addCountClick(e) {
       if(!this.food.count){
@@ -42,7 +38,6 @@ export default {
     },
     decreaseCountClick() {
       this.food.count--
-      this.bus.$emit('changeCount',this.food)
     }
   }
 }
@@ -51,29 +46,39 @@ export default {
 <style lang="stylus" scoped>
   .cartfood
     font-size: 0
-    .disceaseCount
+    height: 36px
+    .discreaseCount
       display: inline-block
-      &.v-enter,&.v-leave-to
+      padding: 6px
+      height: 24px
+      transition: all 0.4s linear
+      .inner
+          display: inline-block
+          line-height: 24px
+          font-size: 24px
+          color: rgb(0, 160, 220)
+          transition: all 0.4s linear
+          transform: rotate(0)
+      &.fade-enter-active,&.fade-leave-active
+        opacity: 1
+        transform: translate3d(0, 0, 0)
+        .inner
+          transition: all 0.4s linear
+          transform: rotate(0)
+      &.fade-enter, &.fade-leave-to
         opacity: 0
-        transform: translate3d(24px,0,0)
-      .icon-remove_circle_outline
-        display: inline-block
-        padding: 6px
-        line-height: 24px
-        font-size: 24px
-        color:rgb(0,160,220)
-      &.v-enter-active,&.v-leave-active
-        transform: translate3d(0,0,0) 
-        transition: all 0.35s linear
+        transform: translate3d(24px, 0, 0)
+        .inner
+          transform: rotate(180deg)
     .count
       display: inline-block
       vertical-align: top
-      text-align: center
-      margin-top: 6px
       width: 12px
+      padding-top: 6px
       line-height: 24px
+      text-align: center
       font-size: 10px
-      color: rgb(147,153,159)
+      color: rgb(147, 153, 159)
     .addCount
       display: inline-block
       padding: 6px

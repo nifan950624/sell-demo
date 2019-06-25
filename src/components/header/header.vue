@@ -210,7 +210,7 @@ export default {
       top: 0
       bottom: 0
       right: 0
-      z-index: 99
+      z-index: 200
       overflow: auto
       background: rgba(7, 17, 27, 0.8)
       // backdrop-filter: blur(10px)
