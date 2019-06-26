@@ -30,6 +30,7 @@
           <div class="food-wrapper border-bottom"
           v-for= "(food,index) of item.foods"
           :key="index"
+          @click.stop="showDetailflag(food,$event)"
           >
             <div class="food-img"><img :src="food.image" width=57 height=57></div>
             <div class="content">
@@ -53,6 +54,9 @@
         </li>
       </ul>
     </div>
+    <detail 
+    ref="detail"
+    :selectedFood="selectedFood"></detail>
     <shop-cart
     :sellectFoods="sellectFoods" 
     :minPrice="seller.minPrice"
@@ -65,6 +69,7 @@
 <script>
 import shopCart from './shopCart/shopCart'
 import cartfood from './cartfood/cartfood'
+import detail from './foodDetail/detail'
 import BScroll from 'better-scroll'
 const ERR_OK = 0
 export default {
@@ -75,6 +80,7 @@ export default {
   components: {
     shopCart,
     cartfood,
+    detail
   },
   data() {
     return {
@@ -82,6 +88,7 @@ export default {
       classList: ['discrease','discount','guarantee','invoice','special'],
       listHeight: [],
       scrollY: 0,
+      selectedFood: {}
     }
   },
   computed: {
@@ -108,6 +115,10 @@ export default {
     },
   },
   methods: {
+    showDetailflag(food,target) {
+      this.selectedFood = food
+      this.$refs.detail.showDetail()
+    },
     handleNavClick(index, event) {
       if(!event._constructed) {
         return

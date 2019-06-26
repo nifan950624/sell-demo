@@ -127,7 +127,7 @@ export default {
   methods: {
     pay() {
       if (this.totilePrice - this.minPrice >= 0) {
-        alert(`一共支付${this.totilePrice + this.deliveryPrice}元`)
+        alert(`一共需要支付${this.totilePrice + this.deliveryPrice}元`)
       } 
     },
     clearShopCart() {
@@ -220,7 +220,10 @@ export default {
       if (show) {
         this.$nextTick(() => {  
           if(!this.scroll) {  
-            this.scroll = new BScroll(this.$refs.wrapper)
+            this.scroll = new BScroll(this.$refs.wrapper,
+            {
+              click: true
+            })
           } else {
             this.scroll.refresh()
           }
@@ -394,7 +397,7 @@ export default {
     left: 0
     width: 100%
     height: 100%
-    z-index: 50
+    z-index: 30
     background: rgba(7,17,27,0.6)
     backdrop-filter: blur(10px)
     &.fade-enter,&.fade-leave-to

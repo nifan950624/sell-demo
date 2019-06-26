@@ -4,7 +4,7 @@
           <div
           v-show="food.count > 0" 
           class="discreaseCount"
-          @click="decreaseCountClick"
+          @click.prevent.stop="decreaseCountClick"
           >
             <span class="inner icon-remove_circle_outline"></span>
           </div>
@@ -13,7 +13,7 @@
     v-show="food.count > 0" 
     >{{food.count}}</div>
     <div
-    @click="addCountClick"
+    @click.prevent.stop="addCountClick"
     class="addCount icon-add_circle"></div>
   </div>
 </template>
