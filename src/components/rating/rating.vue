@@ -2,23 +2,29 @@
 <div class="rating">
   <div class="buttons border-bottom">
     <div class="button all"
-    :class="{'active': selectType===0}"
-    >{{buttonContent.all}}</div>
+    :class="{'active': type===2}"
+    @click="handleActiveClick(2)"
+    >{{buttonContent.all}}{{ratings.length}}</div>
     <div class="button positive"
-    :class="{'active': selectType===1}"
-    >{{buttonContent.positive}}</div>
+    :class="{'active': type===0}"
+    @click="handleActiveClick(0)"
+    >{{buttonContent.positive}}{{positives.length}}</div>
     <div class="button negative"
-    :class="{'active': selectType===2}"
-    >{{buttonContent.negative}}</div>
+    :class="{'active': type===1}"
+    @click="handleActiveClick(1)"
+    >{{buttonContent.negative}}{{negatives.length}}</div>
   </div>
-  <ul>
-    <div class="seen">
-      <i class="icon-check_circle"
-      :class="{'on': seenContent===false}"
-      ></i>
-      <span class="selectrate">只看有内容的评价</span>
-    </div>
-    <li class="rate border-bottom"
+  <div class="seen">
+    <i class="icon-check_circle"
+    :class="{'on': content===true}"
+    @click="handleSelect"
+    ></i>
+    <span class="selectrate">只看有内容的评价</span>
+  </div>
+  <ul v-show="ratings.length">
+    <li 
+    v-show="selectShow(rating.rateType, rating.text)"
+    class="rate border-bottom"
     v-for="(rating,index) of ratings"
     :key="index"
     >
@@ -26,7 +32,8 @@
         <span class="data">{{rating.rateTime}}</span><span class="time">12:34</span>
       </div>
       <div class="content">
-        <i class="icon-thumb_down"></i>
+        <i 
+        :class="rating.rateType === 1? 'icon-thumb_down' :'icon-thumb_up'"></i>
         <span class="text">{{rating.text}}</span>
       </div>
       <div class="usermsg">
@@ -38,15 +45,16 @@
         </div>
       </div>
     </li>
+    <li class="no-ratings" v-show="!ratings.length">暂无评价内容</li>
   </ul>
 </div>
 </template>
 
 <script>
 import Vue from 'vue'
-const ALL = 0
-const POSITIVE = 1
-const NEGATIVE = 2
+const ALL = 2
+const POSITIVE = 0
+const NEGATIVE = 1
 export default {
   props: {
     selectType: {
@@ -55,7 +63,7 @@ export default {
     },
     seenContent: {
       type: Boolean,
-      default: true
+      default: false
     },
     ratings: {
       type: Array,
@@ -72,6 +80,44 @@ export default {
           negative: '不满意'
         }
       }
+    }
+  },
+  data() {
+    return {
+      type : this.selectType,
+      content: this.seenContent
+    }
+  },
+  methods: {
+    handleActiveClick(type) {
+      this.type = type;
+      this.$emit('typeChange', this.type)
+    },
+    handleSelect() {
+      this.content = !this.content
+      this.$emit('contentChange', this.content)
+    },
+    selectShow(type,text) {
+      if (this.content && !text) {
+        return false
+      }
+      if (this.type === ALL) {
+        return true
+      }else {
+        return this.type === type
+      }
+    }
+  },
+  computed: {
+    positives() {
+      return this.ratings.filter((rating)=> {
+        return rating.rateType === POSITIVE
+      })
+    },
+    negatives() {
+      return this.ratings.filter((rating)=> {
+      return rating.rateType === NEGATIVE
+      })
     }
   },
   mounted() {
@@ -110,8 +156,9 @@ export default {
         font-size: 12px
         border-radius: 2px
         &.all
-          background: rgb(0,160,220)
+          background: rgba(0,160,220,0.2)
           &.active
+            background: rgb(0,160,220)  
             color: #fff
         &.positive
           background: rgba(0,160,220,0.2)
@@ -146,35 +193,39 @@ export default {
     padding: 16px 0
     &.border-bottom::before
       border-color: rgba(7,17,27,0.1)
-  .rate-data
-    line-height: 12px
-    color: rgb(147,153,159)
-    overflow: hidden
-    .data,.time
-      display: inline-block
-      vertical-align: top
-    .time
-      margin-left: 6px
-  .content
-    margin-top: 6px
-    font-size: 0
-    line-height: 24px
-    .icon-thumb_down,.text
-      display: inline-block
-      vertical-align: top
-      font-size: 12px
-      color: #000
-    .icon-thumb_down
-      margin-top: 6px
+    .rate-data
+      line-height: 12px
       color: rgb(147,153,159)
-      margin-right: 4px
-  .usermsg
-    position: absolute
-    display: flex
-    right: 18px
-    top: 16px
-    height: 12px
-    line-height: 12px
+      overflow: hidden
+      .data,.time
+        display: inline-block
+        vertical-align: top
+      .time
+        margin-left: 6px
+    .content
+      margin-top: 6px
+      font-size: 0
+      line-height: 24px
+      .icon-thumb_down,.icon-thumb_up,.text
+        display: inline-block
+        vertical-align: top
+        font-size: 12px
+        color: #000
+      .icon-thumb_down
+        margin-top: 6px
+        color: rgb(147,153,159)
+        margin-right: 4px
+      .icon-thumb_up
+        margin-top: 6px
+        color: rgb(0,160,220)
+        margin-right: 4px
+    .usermsg
+      position: absolute
+      display: flex
+      right: 18px
+      top: 16px
+      height: 12px
+      line-height: 12px
     .name
       margin-right: 6px
       font-size: 10px
@@ -187,4 +238,6 @@ export default {
         border-radius: 50%
         width: 12px
         height: 12px
+  .no-ratings
+    padding: 16px 0
 </style>

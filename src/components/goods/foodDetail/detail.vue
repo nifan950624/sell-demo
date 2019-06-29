@@ -62,6 +62,8 @@
           :seen-content="seenContent"
           :button-content="buttonContent"
           :ratings="selectedFood.ratings"
+          @typeChange="handleTypeChange"
+          @contentChange="handleContentChange"
           ></rating>
         </div>
       </div>
@@ -74,9 +76,9 @@ import BScroll from 'better-scroll'
 import Vue from 'vue'
 import cartfood from '../cartfood/cartfood'
 import rating from '@/components/rating/rating'
-const ALL = 0
-const POSITIVE = 1
-const NEGAtive = 2
+const ALL = 2
+const POSITIVE = 0
+const NEGATIVE = 1
 export default {
     props: {
       selectedFood: {
@@ -85,7 +87,7 @@ export default {
     },
   data() {
     return {
-      showflag: true,
+      showflag: false,
       selectType: ALL,
       seenContent: false,
       buttonContent: {
@@ -119,8 +121,20 @@ export default {
     },
     handleCloseClick() {
       this.showflag = false
+    },
+    handleContentChange(content) {
+      this.seenContent = content
+      this.$nextTick(()=> {
+        this.scroll.refresh()
+      })
+    },
+    handleTypeChange(type) {
+      this.selectType = type
+      this.$nextTick(()=> {
+        this.scroll.refresh()
+      })
     }
-  } 
+  }
 }
 </script>
 
