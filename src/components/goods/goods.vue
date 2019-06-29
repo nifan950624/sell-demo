@@ -222,6 +222,7 @@ export default {
           .text
             display: table-cell
             vertical-align: middle
+            height: 14px
             line-height: 14px
             font-size: 12px             
     .foods
@@ -278,6 +279,7 @@ export default {
               .oldPrice
                 display: inline-block
                 vertical-align: top
+                text-decoration: line-through
                 line-height: 24px   
                 font-size: 10px
                 color: rgb(147,153,159)
