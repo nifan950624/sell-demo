@@ -1,6 +1,6 @@
 <template>
   <div class="ratings-wrapper" ref="wrapper">
-    <div>
+    <div class="content-wrapper">
       <div class="ratings-content">
       <div class="desc border-right">
         <div class="score">{{seller.score}}</div>
@@ -90,6 +90,10 @@
       </ul>
       <div v-show="!ratings.length" class="no-ratings">暂无评价内容</div>
   </div>
+  <shop-cart
+  :minPrice="seller.minPrice"
+  :deliveryPrice="seller.deliveryPrice"
+  ></shop-cart>
 </div>
 </template>
 
@@ -101,6 +105,7 @@ import split from '@/components/split/split'
 import star from 'base/common/star/star'
 import BScroll from 'better-scroll'
 import {getDate} from 'base/common/js/Date.js'
+import shopCart from '../goods/shopCart/shopCart'
 export default {
   name: 'ratings',
   props: {
@@ -126,7 +131,8 @@ export default {
   components: {
     star,
     split,
-    rating
+    rating,
+    shopCart
   },
   methods: {
     selectShow(type,text) {

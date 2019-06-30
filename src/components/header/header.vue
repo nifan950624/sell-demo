@@ -135,14 +135,18 @@ export default {
           margin-top: 2px
           height: 18px  
           .title-img
-            vertical-align: top
             display inline-block
+            vertical-align: top
             width: 30px
             height: 18px   
             bg-img('brand')
             background-size: cover
             background-repeat: no-repeat
-          .name 
+          .name
+            display: inline-block
+            vertical-align: top
+            margin-top: 1px
+            height: 18px
             line-height: 18px 
             font-size: 16px
             font-weight: bold
