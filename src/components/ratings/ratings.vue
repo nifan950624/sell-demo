@@ -12,11 +12,14 @@
         <div class="star">
           <star :score="seller.serviceScore" :size= 36></star>
         </div>
+        <span class="score-item">{{seller.serviceScore}}</span>
         </div>
         <div class="food-attitude"><span class="food-text">美食评分</span>
         <div class="star">
           <star :score="seller.foodScore" :size= 36></star>
-        </div> 
+        </div>
+        <span class="score-item">{{seller.foodScore}}
+          </span> 
         </div>
         <div class="delivery-time">
           <span class="time-content">送达时间</span>
@@ -110,6 +113,8 @@ export default {
       .desc
         flex: 0 0 137.5px
         text-align: center
+        @media only screen and (max-width: 320px)
+          flex: 0 0 115px
         &.border-right::before
           border-color: rgba(7,17,27, 0.1)
         .score
@@ -129,16 +134,22 @@ export default {
       .stars
         flex: 1
         padding: 0 24px
+        @media only screen and (max-width: 320px)
+          padding:0 8px
         .attitude,.food-attitude,.delivery-time
           height: 18px
           line-height: 18px
           .text,.food-text,.time-content,.num
-            margin-right: 6px
+            margin-right: 12px
             font-size: 12px    
           .star
             display: inline-block
             vertical-align: top
             margin-top: 2px
+        .score-item
+          margin-left: 12px
+          font-size: 12px
+          color: rgb(255,153,0)
         .food-attitude
           margin-top: 8px
         .delivery-time

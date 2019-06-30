@@ -61,10 +61,36 @@
           :select-type="selectType"
           :seen-content="seenContent"
           :button-content="buttonContent"
-          :ratings="selectedFood.ratings"
+          :ratings="ratings"
           @typeChange="handleTypeChange"
           @contentChange="handleContentChange"
           ></rating>
+        <ul v-show="ratings.length">
+          <li 
+          v-show="selectShow(rating.rateType, rating.text)"
+          class="rate border-bottom"
+          v-for="(rating,index) of ratings"
+          :key="index"
+          >
+            <div class="rate-data">
+              <span class="time">{{rating.rateTime | formDate}}</span>
+            </div>
+            <div class="content">
+              <i 
+              :class="rating.rateType === 1? 'icon-thumb_down' :'icon-thumb_up'"></i>
+              <span class="text">{{rating.text}}</span>
+            </div>
+            <div class="usermsg">
+              <div class="name">{{rating.username}}</div>
+              <div class="avatar">
+                <img 
+                class="img"
+                :src="rating.avatar">
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="no-ratings" v-show="!ratings.length">暂无评价内容</div>
         </div>
       </div>
     </div>
@@ -77,11 +103,18 @@ import Vue from 'vue'
 import cartfood from '../cartfood/cartfood'
 import rating from '@/components/rating/rating'
 import split from '@/components/split/split'
+import {getDate} from 'base/common/js/Date.js'
 const ALL = 2
 export default {
     props: {
       selectedFood: {
         type: Object
+      },
+      ratings: {
+        type: Array,
+        default() {
+          return []
+        }
       }
     },
   data() {
@@ -101,7 +134,22 @@ export default {
     rating,
     split
   },
+  filters: {
+    formDate(time) {
+      return getDate(time)
+    }
+  },
   methods: {
+    selectShow(type,text) {
+      if (this.seenContent && !text) {
+        return false
+      }
+      if (this.selectType === ALL) {
+        return true
+      }else {
+        return this.selectType === type
+      }
+    },
     addFood(e) {
       Vue.set(this.selectedFood, 'count', 1)
       this.bus.$emit('addcart',e.currentTarget)
@@ -252,4 +300,55 @@ export default {
         line-height: 14px
         font-size: 14px
         color: rgb(7,17,27)
+      .rate
+        position: relative
+        padding: 16px 0
+        &.border-bottom::before
+          border-color: rgba(7,17,27,0.1)
+        .rate-data
+          line-height: 12px
+          color: rgb(147,153,159)
+          overflow: hidden
+          .time
+            display: inline-block
+            vertical-align: top
+        .content
+          margin-top: 6px
+          font-size: 0
+          line-height: 24px
+          .icon-thumb_down,.icon-thumb_up,.text
+            display: inline-block
+            vertical-align: top
+            font-size: 12px
+            color: #000
+          .icon-thumb_down
+            margin-top: 6px
+            color: rgb(147,153,159)
+            margin-right: 4px
+          .icon-thumb_up
+            margin-top: 6px
+            color: rgb(0,160,220)
+            margin-right: 4px
+        .usermsg
+          position: absolute
+          display: flex
+          right: 18px
+          top: 16px
+          height: 12px
+          line-height: 12px
+        .name
+          margin-right: 6px
+          font-size: 10px
+          color: rgb(147,153,159)
+        .avatar
+          height: 0
+          padding-bottom: 12px
+          overflow: hidden
+          .img
+            border-radius: 50%
+            width: 12px
+            height: 12px
+      .no-ratings
+        padding: 16px 0
+        font-size: 10px
 </style>

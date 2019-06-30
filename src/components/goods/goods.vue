@@ -56,7 +56,10 @@
     </div>
     <detail 
     ref="detail"
-    :selectedFood="selectedFood"></detail>
+    :selectedFood="selectedFood"
+    :ratings="selectedFood.ratings"
+    >
+    </detail>
     <shop-cart
     :sellectFoods="sellectFoods" 
     :minPrice="seller.minPrice"
