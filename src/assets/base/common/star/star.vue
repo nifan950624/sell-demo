@@ -55,7 +55,7 @@ export default {
       font-size: 0
       .star-item
         display: inline-block
-        margin-right: 10px
+        margin-right: 5px
         width: 10px
         height: 10px
         &.on
@@ -71,13 +71,13 @@ export default {
         margin-right: 0
     .star-36
       height: 0px
-      padding-bottom: 15px
+      padding-bottom: 12px
       font-size: 0
       .star-item
         display: inline-block
-        margin-right: 15px
-        width: 15px
-        height: 15px
+        margin-right: 6px
+        width: 12px
+        height: 12px
         &.on
           bg-img('star36_on')
           background-size: cover
@@ -97,7 +97,7 @@ export default {
         display: inline-block
         width: 20px
         height: 20px
-        margin-right: 20px
+        margin-right: 15px
         &.on
           bg-img('star48_on')
           background-size: cover

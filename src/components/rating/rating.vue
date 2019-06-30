@@ -16,7 +16,7 @@
   </div>
   <div class="seen">
     <i class="icon-check_circle"
-    :class="{'on': content===true}"
+    :class="{'on': content===true && ratings.length}"
     @click="handleSelect"
     ></i>
     <span class="selectrate">只看有内容的评价</span>
@@ -29,7 +29,7 @@
     :key="index"
     >
       <div class="rate-data">
-        <span class="data">{{rating.rateTime}}</span><span class="time">12:34</span>
+        <span class="time">{{rating.rateTime | formDate}}</span>
       </div>
       <div class="content">
         <i 
@@ -45,13 +45,14 @@
         </div>
       </div>
     </li>
-    <li class="no-ratings" v-show="!ratings.length">暂无评价内容</li>
   </ul>
+   <div class="no-ratings" v-show="!ratings.length">暂无评价内容</div>
 </div>
 </template>
 
 <script>
 import Vue from 'vue'
+import {getDate} from 'base/common/js/Date.js'
 const ALL = 2
 const POSITIVE = 0
 const NEGATIVE = 1
@@ -80,6 +81,11 @@ export default {
           negative: '不满意'
         }
       }
+    }
+  },
+  filters: {
+    formDate(time) {
+      return getDate(time)
     }
   },
   data() {
@@ -119,23 +125,7 @@ export default {
       return rating.rateType === NEGATIVE
       })
     }
-  },
-  mounted() {
-    this.$nextTick(()=> {
-      this.ratings.forEach((rating) => {
-      let timeNum = rating.rateTime
-      var date = new Date(timeNum);
-      const Y = date.getFullYear() + '-';
-      const M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-      const D = date.getDate() + ' ';
-      const h = date.getHours() + ':';
-      const m = date.getMinutes() + ':';
-      const s = date.getSeconds();
-      let time = Y+M+D+h+m+s
-      console.log(timeNum)
-     })
-    })
-  },
+  }
 }
 </script>
 
@@ -197,11 +187,9 @@ export default {
       line-height: 12px
       color: rgb(147,153,159)
       overflow: hidden
-      .data,.time
+      .time
         display: inline-block
         vertical-align: top
-      .time
-        margin-left: 6px
     .content
       margin-top: 6px
       font-size: 0
@@ -240,4 +228,6 @@ export default {
         height: 12px
   .no-ratings
     padding: 16px 0
+    font-size: 10px
+
 </style>

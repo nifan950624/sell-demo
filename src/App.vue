@@ -26,7 +26,9 @@ export default {
   created() {
     this.$http.get('/api/seller').then((res) => {
       if (res.body.errno === ERR_OK) {
-      this.seller = res.body.data 
+        this.$nextTick(() => {
+          this.seller = res.body.data 
+        })
       }
     })
   }

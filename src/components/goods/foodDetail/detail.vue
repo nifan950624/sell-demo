@@ -47,14 +47,14 @@
             </div>
           </transition>
         </div>
-        <div class="Separate border-topbottom"></div>
+        <split></split>
         <div class="introduce">
           <h2 class="title">商品介绍</h2>
             <p class="info">
               {{selectedFood.info}}
             </p>
         </div>
-        <div class="Separate border-topbottom"></div>
+        <split></split>
         <div class="goodRates">
           <div class="rataTitle">商品评价</div>
           <rating
@@ -76,9 +76,8 @@ import BScroll from 'better-scroll'
 import Vue from 'vue'
 import cartfood from '../cartfood/cartfood'
 import rating from '@/components/rating/rating'
+import split from '@/components/split/split'
 const ALL = 2
-const POSITIVE = 0
-const NEGATIVE = 1
 export default {
     props: {
       selectedFood: {
@@ -99,7 +98,8 @@ export default {
   },
   components: {
     cartfood,
-    rating
+    rating,
+    split
   },
   methods: {
     addFood(e) {
@@ -164,6 +164,8 @@ export default {
         position: absolute
         top: 10px
         left: 5px
+        border-radius: 50%
+        background: rgba(0,0,0,0.2)
         .icon-arrow_lift
           display: inline-block
           padding: 10px
@@ -230,11 +232,6 @@ export default {
           transition: all 0.3s
         &.fade-enter,&.fade-leave-to
           opacity: 0
-    .Separate
-      height: 18px
-      background: #f3f5f7
-      &.border-topbottom::before,&.border-topbottom::after
-        border-color: rgba(7,17,27,0.1)
     .introduce
       padding: 18px
       .title
