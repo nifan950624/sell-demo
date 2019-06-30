@@ -42,7 +42,8 @@ export default {
       width: 100%
       line-height: 40px  
       display: flex
-      boder-color(rgba(7, 17,27,0.1))      
+      &.border-bottom::before
+        border-color: rgba(7, 17,27,0.1)      
       .item 
         flex 1
         text-align center

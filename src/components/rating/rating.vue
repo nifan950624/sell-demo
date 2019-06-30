@@ -91,6 +91,7 @@ export default {
   .rating
     .buttons
       padding: 18px 0
+      margin: 0 18px
       line-height: 16px
       font-size: 0
       &.border-bottom::before

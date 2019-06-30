@@ -1,5 +1,5 @@
 <template>
-  <div class="goods border-top">
+  <div class="goods">
     <div class="food-nav" ref="wrapper1">
       <ul class="nav-list">
         <li class="nav-item border-bottom"
@@ -179,10 +179,7 @@ export default {
     bottom: 48px
     left: 0
     right: 0
-    overflow: hidden
-  .border-top
-    &::before
-      border-color: rgba(7,17,27,0.1) 
+    overflow: hidden 
     .food-nav
       flex: 0 0 80px
       background: #f3f5f7

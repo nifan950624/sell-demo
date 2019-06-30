@@ -294,7 +294,7 @@ export default {
         font-size: 12px
         color: rgb(77,85,93)
     .goodRates
-      padding: 18px
+      padding: 18px 0
       .rataTitle
         height: 14px
         line-height: 14px
@@ -303,6 +303,7 @@ export default {
       .rate
         position: relative
         padding: 16px 0
+        margin: 18px
         &.border-bottom::before
           border-color: rgba(7,17,27,0.1)
         .rate-data
