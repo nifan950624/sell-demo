@@ -186,7 +186,7 @@ export default {
         display: inline-block
         vertical-align: top
         margin-right: 4px
-        margin-top: 6px
+        margin-top: 7px
         bg-img('bulletin')
         width: 22px
         height: 12px

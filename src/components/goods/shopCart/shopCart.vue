@@ -89,6 +89,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 import cartfood from '@/components/goods/cartfood/cartfood'
 import BScroll from 'better-scroll'
 export default {
@@ -106,7 +107,7 @@ export default {
     minPrice: {
       type: Number,
       default: 0
-    }
+    },
   },
   components: {
     cartfood
@@ -199,6 +200,8 @@ export default {
       this.sellectFoods.forEach((food) => {
         price += food.price * food.count
       })
+      this.$store.commit('totilePrice', price)
+      
       return price
     },
     totileCount() {
@@ -206,6 +209,7 @@ export default {
       this.sellectFoods.forEach((food) => {
         count += food.count
       })
+      this.$store.commit('totleCount',count)
       return count
     },
     Spread() {

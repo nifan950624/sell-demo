@@ -8,7 +8,7 @@
           <div class="star-wrapprt">
             <star :size=36 :score="seller.score"></star>
           </div>
-          <span class="rateNumber">(600)</span>
+          <span class="rateNumber">({{seller.ratingCount}})</span>
           <span class="sellCount">月销{{seller.sellCount}}单</span>
         </div>
         <div class="collect">
@@ -56,14 +56,12 @@
     </div>
     <split></split>
     <div class="sellerImages">
-      <h2 class="sellerImages-title">商家实景</h2>
-      <div class="images">
-        <img 
-        class="image"
-        v-for="(pic,index) of seller.pics"
-        :key="index"
-        :src="pic" width=120 height=90>
-      </div>
+      <h2 class="sellerImages-title">商家实景</h2> 
+      <swiper :options="swiperOption">
+        <swiper-slide v-for="(pic,index) of seller.pics" :key="index">
+        <img class="image" :src="pic" width=100%>
+        </swiper-slide>
+      </swiper>  
     </div>
     <split></split>
     <div class="seller-message">
@@ -78,13 +76,24 @@
       </ul>
     </div>
   </div>
+  <shop-cart
+  :minPrice="seller.minPrice"
+  :deliveryPrice="seller.deliveryPrice"
+  ></shop-cart>
 </div>
 </template>
 
 <script>
+require('swiper/dist/css/swiper.css')
+import shopCart from '../goods/shopCart/shopCart'
+import Vue from 'vue'
 import BScroll from 'better-scroll'
 import star from 'base/common/star/star'
 import split from '../split/split'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import {saveLocal} from './locaStorage.js'
+import {getter} from './locaStorage.js'
+Vue.use(VueAwesomeSwiper)
 export default {
   name: 'seller',
   props: {
@@ -95,37 +104,45 @@ export default {
       if(this.collect) {
         return "已收藏"
       }else {
-        return "收藏"
+        return "未收藏"
       }
     }
   },
   data() {
     return {
       classList: ['discrease','discount','guarantee','invoice','special'],
-      collect: false
+      collect: false,
+      swiperOption: {
+        slidesPerView : 3,
+        spaceBetween : 6,
+      }
     }
   },
   methods: {
     handleCollectClick() {
-      console.log(1)
       this.collect = !this.collect
+      saveLocal(this.seller.id,'collect',this.collect)
     }
   },
   components: {
     star,
-    split
+    split,
+    shopCart
   },
-  mounted() {
+  created() {
     this.$nextTick(()=> {
-        if(!this.scroll) {
+       if(!this.scroll) {
           this.scroll = new BScroll(this.$refs.wrapper,{
           click: true
         })
       }else {
         this.scroll.refresh()
-      }      
+      }
+      getter(this.seller.id,'collect', (value)=> {
+        this.collect = value
+      })
     })
-  }
+  },
 }
 </script>
 
@@ -138,7 +155,7 @@ export default {
     bottom: 48px
     overflow: hidden
     .header
-      margin: 18px
+      padding: 18px
       .header-top
         padding-bottom: 18px
         &.border-bottom::before
@@ -182,6 +199,7 @@ export default {
             line-height: 10px
             font-size: 10px
             color: rgb(77,85,93)
+            white-space: nowrap
       .header-bottom
         margin-top: 18px
         display: flex
@@ -260,10 +278,9 @@ export default {
         font-size: 14px
         font-weight: 700
       .images
-        display: flex
-        overflow: hidden
-        .image
-          margin-right: 6px
+        width: 100%
+        height: 0
+        padding-bottom: 90px
     .seller-message
       padding: 18px 18px 0 18px
       .seller-message-title
@@ -285,7 +302,4 @@ export default {
             border-color: rgba(7,17,27,0.1)
           &:last-child::before
             display: none
-
-          
-
 </style>
