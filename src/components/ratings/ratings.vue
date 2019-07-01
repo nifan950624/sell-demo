@@ -90,10 +90,6 @@
       </ul>
       <div v-show="!ratings.length" class="no-ratings">暂无评价内容</div>
   </div>
-  <shop-cart
-  :minPrice="seller.minPrice"
-  :deliveryPrice="seller.deliveryPrice"
-  ></shop-cart>
 </div>
 </template>
 
@@ -105,7 +101,6 @@ import split from '@/components/split/split'
 import star from 'base/common/star/star'
 import BScroll from 'better-scroll'
 import {getDate} from 'base/common/js/Date.js'
-import shopCart from '../goods/shopCart/shopCart'
 export default {
   name: 'ratings',
   props: {
@@ -132,7 +127,6 @@ export default {
     star,
     split,
     rating,
-    shopCart
   },
   methods: {
     selectShow(type,text) {
@@ -178,7 +172,7 @@ export default {
   .ratings-wrapper
     position: absolute
     top: 174px
-    bottom: 48px
+    bottom: 0
     width: 100%
     overflow: hidden
     .ratings-content

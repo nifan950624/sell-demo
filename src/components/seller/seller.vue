@@ -76,16 +76,11 @@
       </ul>
     </div>
   </div>
-  <shop-cart
-  :minPrice="seller.minPrice"
-  :deliveryPrice="seller.deliveryPrice"
-  ></shop-cart>
 </div>
 </template>
 
 <script>
 require('swiper/dist/css/swiper.css')
-import shopCart from '../goods/shopCart/shopCart'
 import Vue from 'vue'
 import BScroll from 'better-scroll'
 import star from 'base/common/star/star'
@@ -127,7 +122,6 @@ export default {
   components: {
     star,
     split,
-    shopCart
   },
   created() {
     this.$nextTick(()=> {
@@ -152,7 +146,7 @@ export default {
     position: absolute
     width: 100%
     top: 174px
-    bottom: 48px
+    bottom: 0
     overflow: hidden
     .header
       padding: 18px

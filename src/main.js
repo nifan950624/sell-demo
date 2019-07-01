@@ -10,7 +10,6 @@ import 'base/style/icon.css'
 import vueResource from 'vue-resource'
 import FastClick from 'fastclick'
 
-console.log(store)
 Vue.config.productionTip = false
 Vue.use(vueResource)
 FastClick.attach(document.body)
